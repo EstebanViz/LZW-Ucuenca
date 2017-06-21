@@ -1,0 +1,13 @@
+Cuenca|Loja|122
+Guayaquil|Cuenca|130
+Quito|Loja|431
+Guayaquil|Quito|274
+Cuenca|Quito|308
+Esmeraldas|Guayaquil|350
+Manabi|Esmeraldas|192
+Guayaquil|Manabi|159
+Azogues|Cuenca|25
+Cuenca|Gualaceo|25
+Gualaceo|Azogues|19
+Paute|Gualaceo|13
+Cuenca|Paute|30
