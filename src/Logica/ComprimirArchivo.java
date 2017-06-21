@@ -6,7 +6,7 @@ import java.io.RandomAccessFile;
 import java.util.HashMap;
 
 public class ComprimirArchivo {
-        // Define a HashMap and other variables that will be used in the program
+      
     public HashMap<String, Integer> dictionary = new HashMap<>();
     public int dictSize = 256;
     public String str = "";
@@ -14,26 +14,21 @@ public class ComprimirArchivo {
     public byte[] buffer = new byte[3];
     public boolean onleft = true;
 
-    /**
-     * Takes in a file name that is uncompressed, and will compress it's file
-     * contents and append a ".lzw" to the end of the current file name
-     *
-     * @param uncompressed - Name of uncompressed file being compressed
-     * @throws java.io.IOException - File input/output failure
-     */
+    
+ 
     public void compress(String uncompressed) throws IOException {
-        // Dictionary size limit, builds dictionary
+ 
         for (int i = 0; i < 256; i++) {
             dictionary.put(Character.toString((char) i), i);
         }
 
-        // Read input uncompress file & Write out compressed file
+     
         RandomAccessFile read = new RandomAccessFile(uncompressed, "r");
         RandomAccessFile out = new RandomAccessFile(uncompressed.concat(
                 ".lzw"), "rw");
 
         try {
-            // Reads the First Character from input file into the String
+            
             inputByte = read.readByte();
             int i = new Byte(inputByte).intValue();
             if (i < 0) {
@@ -42,7 +37,7 @@ public class ComprimirArchivo {
             char ch = (char) i;
             str = "" + ch;
 
-            // Reads Character by Character
+            
             while (true) {
                 inputByte = read.readByte();
                 i = new Byte(inputByte).intValue();
@@ -53,15 +48,13 @@ public class ComprimirArchivo {
                 System.out.print(i + ", ");
                 ch = (char) i;
 
-                // If str + ch is in the dictionary..
-                // Set str to str + ch
+               
                 if (dictionary.containsKey(str + ch)) {
                     str = str + ch;
                 } else {
                     String s12 = to12bit(dictionary.get(str));
 
-                    // Store the 12 bits into an array and then write it to the
-                    // output file
+                  
                     if (onleft) {
                         buffer[0] = (byte) Integer.parseInt(
                                 s12.substring(0, 8), 2);
@@ -79,12 +72,12 @@ public class ComprimirArchivo {
                     }
                     onleft = !onleft;
 
-                    // Add str + ch to the dictionary
+             
                     if (dictSize < 4096) {
                         dictionary.put(str + ch, dictSize++);
                     }
 
-                    // Set str to ch
+                   
                     str = "" + ch;
                 }
             }
@@ -111,12 +104,6 @@ public class ComprimirArchivo {
         }
     }
 
-    /**
-     * Converts 8 bits to 12 bits
-     *
-     * @param i - Integer value
-     * @return - String value of integer in 12 bit
-     */
     public String to12bit(int i) {
         String str = Integer.toBinaryString(i);
         while (str.length() < 12) {

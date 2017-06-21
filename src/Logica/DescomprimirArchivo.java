@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class DescomprimirArchivo {
-     // Define a HashMap and other variables that will be used in the program
+     
     public HashMap<Integer, String> dictionary = new HashMap<>();
     public String[] Array_char;
     public int dictSize = 256;
@@ -19,16 +19,7 @@ public class DescomprimirArchivo {
     public boolean onleft = true;
     public static String str;
 
-    /**
-     * Decompress Method that takes in input, output as a file path Then
-     * decompress the input to same file as the one passed to compress method
-     * without loosing any information. In the decompression method it reads in
-     * 3 bytes of information and write 2 characters corresponding to the bits
-     * read.
-     *
-     * @param input - Name of input file path
-     * @throws java.io.IOException - File input/output failure
-     */
+  
     public void LZW_Decompress(String input) throws IOException {
         // DictSize builds up to 4k, Array_Char holds these values
         Array_char = new String[4096];
@@ -38,20 +29,20 @@ public class DescomprimirArchivo {
             Array_char[i] = Character.toString((char) i);
         }
 
-        // Read input as uncompressed file & Write out compressed file
+        
         RandomAccessFile in = new RandomAccessFile(input, "r");
         RandomAccessFile out = new RandomAccessFile(input.replace(
                 ".lzw", ""), "rw");
 
         try {
-            // Gets the first word in code and outputs its corresponding char
+      
             buffer[0] = in.readByte();
             buffer[1] = in.readByte();
             priorword = getvalue(buffer[0], buffer[1], onleft);
             onleft = !onleft;
             out.writeBytes(Array_char[priorword]);
 
-            // Reads every 3 bytes and generates corresponding characters
+          
             while (true) {
                 if (onleft) {
                     buffer[0] = in.readByte();
@@ -87,14 +78,7 @@ public class DescomprimirArchivo {
         }
     }
 
-    /**
-     * Extract the 12 bit key from 2 bytes and gets the integer value of the key
-     *
-     * @param b1 - First byte
-     * @param b2 - Second byte
-     * @param onleft - True if on left, false if not
-     * @return - An Integer which holds the value of the key
-     */
+
     public int getvalue(byte b1, byte b2, boolean onleft) {
         String temp1 = Integer.toBinaryString(b1);
         String temp2 = Integer.toBinaryString(b2);
